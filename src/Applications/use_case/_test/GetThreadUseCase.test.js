@@ -58,7 +58,7 @@ describe('GetThreadUseCase', () => {
     const mockCommentRepository = new CommentRepository();
     const mockReplyRepository = new ReplyRepository();
 
-    mockThreadRepository.getThreadById = jest.fn().mockImplementation(() =>
+    mockThreadRepository.getThreadById = jest.fn(() =>
       Promise.resolve(
         new DetailThread({
           id: 'thread-123',
@@ -70,7 +70,7 @@ describe('GetThreadUseCase', () => {
         }),
       ),
     );
-    mockCommentRepository.getCommentsByThreadId = jest.fn().mockImplementation(() =>
+    mockCommentRepository.getCommentsByThreadId = jest.fn(() =>
       Promise.resolve([
         new DetailComment({
           id: 'comment-123',
@@ -82,7 +82,7 @@ describe('GetThreadUseCase', () => {
         }),
       ]),
     );
-    mockReplyRepository.getRepliesByThreadId = jest.fn().mockImplementation(() =>
+    mockReplyRepository.getRepliesByThreadId = jest.fn(() =>
       Promise.resolve([
         new DetailReply({
           id: 'reply-123',
@@ -164,7 +164,7 @@ describe('GetThreadUseCase', () => {
     const mockCommentRepository = new CommentRepository();
     const mockReplyRepository = new ReplyRepository();
 
-    mockThreadRepository.getThreadById = jest.fn().mockImplementation(() =>
+    mockThreadRepository.getThreadById = jest.fn(() =>
       Promise.resolve(
         new DetailThread({
           id: 'thread-123',
@@ -176,7 +176,8 @@ describe('GetThreadUseCase', () => {
         }),
       ),
     );
-    mockCommentRepository.getCommentsByThreadId = jest.fn().mockImplementation(() =>
+
+    mockCommentRepository.getCommentsByThreadId = jest.fn(() =>
       Promise.resolve([
         new DetailComment({
           id: 'comment-123',
@@ -188,7 +189,8 @@ describe('GetThreadUseCase', () => {
         }),
       ]),
     );
-    mockReplyRepository.getRepliesByThreadId = jest.fn().mockImplementation(() =>
+
+    mockReplyRepository.getRepliesByThreadId = jest.fn(() =>
       Promise.resolve([
         new DetailReply({
           id: 'reply-123',

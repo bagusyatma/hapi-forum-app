@@ -5,6 +5,7 @@ const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError');
 const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
 const AddedReply = require('../../../Domains/replies/entities/AddedReply');
+const DetailReply = require('../../../Domains/replies/entities/DetailReply');
 const pool = require('../../database/postgres/pool');
 const ReplyRepositoryPostgres = require('../ReplyRepositoryPostgres');
 
@@ -116,6 +117,15 @@ describe('ReplyRepositoryPostgres', () => {
     describe('getRepliesByThreadId function', () => {
       it('should return replies correctly', async () => {
         // Arrange
+        const expectedReplies = new DetailReply({
+          id: 'reply-123',
+          commentId: 'comment-123',
+          content: 'content',
+          username: 'dicoding',
+          date: '2021-08-08',
+          is_deleted: false,
+        });
+
         await RepliesTableTestHelper.addReply({ id: 'reply-123', commentId: 'comment-123', content: 'content', owner: 'user-123', date: '2021-08-08' });
 
         const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {}, {});
@@ -125,16 +135,20 @@ describe('ReplyRepositoryPostgres', () => {
 
         // Assert
         expect(replies).toHaveLength(1);
-        expect(replies[0].id).toEqual('reply-123');
-        expect(replies[0].commentId).toEqual('comment-123');
-        expect(replies[0].content).toEqual('content');
-        expect(replies[0].username).toEqual('dicoding');
-        expect(replies[0].date).toEqual('2021-08-08');
-        expect(replies[0].is_deleted).toEqual(false);
+        expect(replies).toStrictEqual([expectedReplies]);
       });
 
       it('should return reply is deleted', async () => {
         // Arrange
+        const expectedReplies = new DetailReply({
+          id: 'reply-123',
+          commentId: 'comment-123',
+          content: 'content',
+          username: 'dicoding',
+          date: '2021-08-08',
+          is_deleted: true,
+        });
+
         await RepliesTableTestHelper.addReply({ id: 'reply-123', commentId: 'comment-123', content: 'content', owner: 'user-123', date: '2021-08-08', isDeleted: true });
 
         const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {}, {});
@@ -144,12 +158,7 @@ describe('ReplyRepositoryPostgres', () => {
 
         // Assert
         expect(replies).toHaveLength(1);
-        expect(replies[0].id).toEqual('reply-123');
-        expect(replies[0].commentId).toEqual('comment-123');
-        expect(replies[0].content).toEqual('content');
-        expect(replies[0].username).toEqual('dicoding');
-        expect(replies[0].date).toEqual('2021-08-08');
-        expect(replies[0].is_deleted).toEqual(true);
+        expect(replies).toStrictEqual([expectedReplies]);
       });
 
       it('should return empty array when no replies', async () => {

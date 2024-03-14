@@ -28,8 +28,8 @@ describe('AddReplyUseCase', () => {
     const mockReplyRepository = new ReplyRepository();
 
     /** mocking needed function */
-    mockCommentRepository.checkCommentIsExist = jest.fn().mockImplementation(() => Promise.resolve());
-    mockReplyRepository.addReply = jest.fn().mockImplementation(() =>
+    mockCommentRepository.checkCommentIsExist = jest.fn(() => Promise.resolve());
+    mockReplyRepository.addReply = jest.fn(() =>
       Promise.resolve(
         new AddedReply({
           id: 'reply-123',

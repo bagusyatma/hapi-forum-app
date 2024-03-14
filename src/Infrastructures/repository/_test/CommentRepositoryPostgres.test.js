@@ -144,6 +144,15 @@ describe('CommentRepositoryPostgres', () => {
 
       it('should return when comment is deleted', async () => {
         // Arrange
+        const expectedDetail = new DetailComment({
+          id: 'comment-123',
+          content: 'content',
+          date: '2021-08-08',
+          username: 'dicoding',
+          is_deleted: true,
+          replies: [],
+        });
+
         await CommentsTableTestHelper.addComment({ id: 'comment-123', threadId: 'thread-123', owner: 'user-123', content: 'content', date: '2021-08-08', isDeleted: true });
 
         const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {}, {});
@@ -153,12 +162,7 @@ describe('CommentRepositoryPostgres', () => {
 
         // Assert
         expect(comments).toHaveLength(1);
-        expect(comments[0].id).toEqual('comment-123');
-        expect(comments[0].content).toEqual('content');
-        expect(comments[0].username).toEqual('dicoding');
-        expect(comments[0].date).toEqual('2021-08-08');
-        expect(comments[0].is_deleted).toEqual(true);
-        expect(comments[0].replies).toEqual([]);
+        expect(comments).toStrictEqual([expectedDetail]);
       });
 
       it('should return empty array when no comments', async () => {
